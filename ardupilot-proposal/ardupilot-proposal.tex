@@ -1,0 +1,349 @@
+%XeTeX
+\documentclass[a4paper, 11pt, titlepage]{article}
+\usepackage{microtype}
+\usepackage{a4wide}
+\usepackage{import}
+
+%Font stuff
+%\usepackage{fontspec}
+%\setmainfont[
+ % Ligatures={TeX},
+ % AutoFakeSlant=0.18
+%]{Source Serif Pro}
+
+%Colours!
+\usepackage[table]{xcolor}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{mynavyblue}{HTML}{1E5A9C}
+
+%For the risk matrix
+\definecolor{vlowrisk}{HTML}{00FF00}
+\definecolor{lowrisk}{HTML}{22CC22}
+\definecolor{mediumrisk}{HTML}{F2B59B}
+\definecolor{highrisk}{HTML}{FF9D00}
+\definecolor{veryhighrisk}{HTML}{FC0000}
+
+%Math equations
+\usepackage{mathtools}
+\usepackage{relsize}
+\usepackage{unicode-math}
+
+%Math spacing
+\makeatletter
+\g@addto@macro\normalsize{%
+  \setlength\abovedisplayskip{5pt}
+  \setlength\belowdisplayskip{5pt}
+  \setlength\abovedisplayshortskip{0pt}
+  \setlength\belowdisplayshortskip{0pt}
+}
+
+%Lists
+\usepackage{enumerate}
+%Tables
+\usepackage{tabularx}
+\usepackage{tabulary}
+\usepackage{multirow}
+\usepackage{array}
+%Stretchy centered column in tabularx
+\newcolumntype{Z}{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}X}
+
+%Margins
+\usepackage[top=2.0cm, bottom=2.0cm, left=2.30cm, right=2.30cm]{geometry}
+
+%Todo
+\usepackage{todonotes}
+
+%PDF hyperlinks
+\usepackage{hyperref}
+\hypersetup{
+     colorlinks		= true,
+     citecolor		= black,
+     linkcolor		= black,
+     urlcolor		= mynavyblue,
+     bookmarksopen	= false,
+     pdfpagemode	= UseNone,
+     pdftitle		= {Hexacopter Project 2015 - Ardupilot proposal},
+     pdfauthor		= {},
+     pdfsubject	= {Hexacopter FYP 2015}
+}
+
+%Figures
+\usepackage{float}
+\usepackage{import}
+\usepackage{pgf}
+\usepackage{tikz}
+
+%Line spacing
+\usepackage{setspace}
+\usepackage[compact]{titlesec}
+\usepackage[parfill]{parskip}
+\parskip=8pt
+
+%Code
+\usepackage{float}
+\usepackage{listings}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{accsupp}% http://ctan.org/pkg/accsupp
+\newcommand{\emptyaccsupp}[1]{\BeginAccSupp{ActualText={}}#1\EndAccSupp{}}
+
+\lstset{
+  basicstyle=\ttfamily\footnotesize\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,                    % adds a frame around the code
+  columns=true,
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}\emptyaccsupp, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,                       % sets default tabsize to 2 spaces
+  %title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+\newcommand\mylstcaption{}
+
+\surroundwithmdframed[
+hidealllines=true,
+middleextra={
+  \node[anchor=west] at (O|-P)
+    {\lstlistingname~\thelstlisting\  (Cont.):~\mylstcaption};},
+secondextra={
+  \node[anchor=west] at (O|-P)
+    {\lstlistingname~\thelstlisting\  (Cont.):~\mylstcaption};},
+splittopskip=2\baselineskip
+]{lstlisting}
+
+
+%Attachments 
+\usepackage{attachfile2}
+\attachfilesetup{color = mynavyblue}
+
+%4-level numbering 
+\usepackage{titlesec}
+%\setcounter{secnumdepth}{4}
+
+%Sideways figures
+\usepackage{rotating}
+\usepackage{standalone}
+
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+%Equation numbering in align*
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+
+%SI units
+\usepackage{siunitx}
+
+%MS Word 1.5 line spacing
+%\setstretch{1.3}
+%\onehalfspacing
+
+\newcommand{\trn}[1]{#1^{\mathsmaller{T}}} % Transpose
+
+\begin{document}
+\textbf{\centerline{\Large ENGINEERING PROPOSAL}}
+\textbf{\centerline{\large  Hexacopter flight controller upgrade}}
+\centerline{24 April 2014}
+
+This document outlines the proposal for replacing and upgrading the flight controller used on the hexacopter to a 3DR Pixhawk \cite{3dr-pixhawk} running the open-source flight control software Ardupilot \cite{ardupilot}. This marks a significant departure from the current ‘black-box’ NAZA flight controller.  The primary motivation for replacement is based on the strong concern that the current system is not sustainable: The current system restricts any automation improvements, provides no value to the wider community, and limits opportunities for future students. 
+
+The key benefits of switching to Ardupilot are: 
+\begin{itemize}
+	\item Tighter integration and feedback of the hexacopter state with the automation software; 
+	\item Avoiding sensor duplication 
+	\item Access to existing ground control and simulation software
+	\item Well documented communication interfaces
+	\item Wide community support
+	\item Already being used in the research field. 
+\end{itemize}
+
+Ardupilot was used in the winning entries in the 2012 and 2014 Canberra outback challenges \cite{canberrauav-2012,canberrauav-2014} and is the platform of choice in the forum DIYdrones. 
+
+The Pixhawk will use the MAVLink communications protocol to communicate with the Raspberry Pi. It is acknowledged that there are risks associated in the switchover, which will be discussed and addressed in this document.
+
+\section{Scope}
+The scope of this project involves:
+\begin{enumerate}
+	\item Removing the NAZA-M V1 flight controller, power monitor (PMU) and GPS/Compass module
+	\item Removing the autonomous/manual switching circuit
+	\item Installing the 3DR Pixhawk, uBlox Neo-7m GPS/Compass module, power monitor, LED and wireless telemetry kit
+	\item Reworking the wiring harness between the flight controller and the Raspberry Pi
+	\item Reconfiguring the automation software to interface with the Pixhawk
+\end{enumerate}
+
+\section{Feature comparison}
+
+\begin{tabularx}{\textwidth}{|X|X|X|}
+	\hline
+	\textbf{Feature} & \textbf{Old (NAZA) system} & \textbf{Proposed (Ardupilot) system} \\
+	\hline
+	     Failsafe (return to base) mode & Yes.  & Yes. \\ \hline
+    Low-power failsafe & Yes, voltage monitor. & Yes, voltage and current monitor. \\ \hline
+    Auto/Manual switch & Yes (via switching circuit). & Yes, built-in to Pixhawk. \\ \hline
+    Buzzer & Yes, but not controllable. Pi has separate buzzer. & Yes, controllable. Pi can also have separate buzzer as before. \\ \hline
+    Fully autonomous (takeoff and waypoint travel) & No.   & Yes. Can be programmed for fully automated missions. \\ \hline
+    IMU (pitch, roll, heading, altitude) and GPS data access & Limited (undocumented, unsupported, deliberately obfuscated interface). Current break-in cable to the GPS is unreliable and may cause damage to the GPS. & Yes. Well documented communications protocol (MAVLink). \\ \hline
+    Radio telemetry & Possible (not currently installed). & Yes. \\ \hline
+    Pan/Tilt gimbal for camera & Limited (tilt control only from the Pi). & Yes. \\ \hline
+    Simulation environment & No.   & Yes, both hardware and software (HITL/SITL) with physics simulation \cite{ardu-sitl-hitl} \\ \hline
+    Existing software tools & Flight assistant software performs calibration only. & 1. Mission planner - handles system configuration, calibration and programming for autonomous flight \cite{missionplanner}. 2. Tower - an Android mobile app for controlling the hexacopter \cite{3dr-tower} \\ \hline
+    Modifiable & No, closed system. & Yes. It is possible to modify all aspects of the system (open-source), but not recommended for our application without thorough testing. \\ \hline
+    Autonomous control from the Raspberry Pi & Yes, via the switching circuit and PWM output. & Yes, digital control via MAVLink (a communication protocol). \\ \hline
+    Built-in support for the PIKSI GPS & No.   & Yes, but it is unclear how mature this support is at this stage. \\
+    \hline
+\end{tabularx}
+
+\subsection{Further discussion of features}
+\subsubsection{Failsafe}
+The Ardupilot configuration has a fail-safe mode equivalent to the NAZA, activated in exactly the same way.  Once configured, the flight computer will return-to-land on loss of hand-held transmitter signal.
+
+The failsafe can be configured as situations demand.
+\subsubsection{Modification of the flight controller}
+While it is possible to modify Ardupilot itself, changes to the low-level controls is not recommended nor required. This option will remain open for future work but will require extensive testing. The Ardupilot’s default flight modes are sufficient for the scope of our work.
+\subsubsection{Camera gimbal}
+The pan servo cannot be controlled by the Pi due to a limitation of the NAZA. 
+This is an out-of-the-box feature on the Ardupilot. 
+\subsubsection{Sensor availability}
+The Raspberry Pi cannot access  pan or tilt data as collected by the NAZA. Any  pan/tilt data received will be different to the NAZA, causing the Pi to fight the NAZA.
+MAVLink provides access to the GPS and IMU data directly from the flight computer, which allows both the QStarz GPS and the XSens IMU to be removed. 
+MAVLink also reports remaining battery capacity, which will allow us to write software that issues warnings and aborts missions intelligently.
+\subsubsection{Telemetry downlink}
+A new redundant data channel will permit monitoring outside range of WiFi, or in the case of server failure, which has caused near misses in the past.
+
+The Ardupilot software supports fully autonomous missions, with instruction sent over this link. However, we expect to maintain the availability of manual override at all times and will configure the fail-safe to reflect this.
+\subsubsection{Control debugging}
+Using an external monitor interferes with the current control interface between the NAZA and Raspberry Pi. The proposed modification will save a great deal of time and effort in working around this problem.
+
+The PWM signal from ServoBlaster must be calibrated with the  NAZA flight control software. With no hardware PWM outputs, exact calibration with the NAZA flight computer is difficult. This is not an issue using MAVLink as it is a digital protocol. 
+
+\subsubsection{Additional sensor compatibility}
+The Ardupilot community has added support for a wide variety of sensors over a wide variety of interfaces. This support includes integration into the navigation Kalman filter where appropriate.
+\subsubsection{Forward compatibility}
+DJI has released two new flight computers since the NAZA-M V1.
+The NAZA-M V1 is still supported, but the latest firmware updates require a CAN bus expander valued at A\$80 to make use of any new features.  Very few of these new features address our current concerns.
+
+The Pixhawk was designed to replace the APM2.6 as the firmware files became too large for the 8-bit processor it carried.  It was designed to be largely future-proof, boasting a generous amount of ram, flash and CPU power.  Even if the Ardupilot project out-grows the Pixhawk, it can be expected to have continuing support and backported features as the APM2.6 owners currently enjoy.
+\subsubsection{Portability to future platforms}
+The Ardupilot project began with fixed wing aircraft and has since been extended to various configurations of multi-rotor, Helicopters, Rovers and Boats.
+Any work done building functionality against ArduCopter (the multirotor firmware) is immediately relevant to almost any other autonomous platform.
+
+\subsection{Alternative solutions}
+\subsubsection{Upgrade the current flight controller}
+To perform any tasks adequately would require significant duplication of sensors, where progress would be bogged down in trying to interface with the low-level components and having to re-invent, test and tune basic control functions. 
+Although there is some limited upgrade capability (upgrading to the PMU V2), which would provide access to the IMU data, this is only possible through an unofficial, undocumented, reverse-engineered system. Even with this extra information, this does not address the other issues outlined in terms of community support, the camera gimbal, telemetry and the existing level of software available for the Ardupilot platform.
+\subsubsection{APM 2.6}
+The APM2.6 is a known-good ardupilot board. The hardware is cheaper than the Pixhawk, but it is version capped as of last year.  This board is not future-proof and will not benefit from new features in ardupilot.
+\subsubsection{MultiWii}
+The MultiWii began as a drone based on a hacked Nintendo Wii controller.  The platform has lesser specs than the out-moded APM2.6.
+\subsubsection{Paparazzi}
+An older project that appears to be extremely versatile, but not very beginner friendly.  Their focus appears to be on modularity and wide applications.  The community encourages significant modification of the core flight control software, which is likely to remain out of scope for this platform.   Many of the demonstrated applications are single-purpose scientific flights.
+\subsubsection{OpenPilot}
+The OpenPilot appears to have a strong community backing for FPV and acrobatics, but the Ardupilot appears to have a sample of simpler flight modes and a stronger autonomous focus, and a stronger Australian community.
+The OpenPilot hardware does support ArduCopter, but does not have the extensive feature set of the Pixhawk, nor its sensor redundancy.
+\subsubsection{Direct motor control}
+Only demonstrated in two videos by a crazy German hacker. Both flights crashed when his Bluetooth game controller went out of range.
+
+\section{Risks}
+\subsection{Risk matrix}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|l|}
+		\hline
+		&  Very unlikely & Unlikely & Possible & Likely & Very Likely \\
+		\hline
+		Negligible & \cellcolor{vlowrisk} Very low & \cellcolor{vlowrisk} Very low & \cellcolor{vlowrisk} Very low & \cellcolor{lowrisk} Low & \cellcolor{lowrisk} Low \\ \hline
+		Minor & \cellcolor{vlowrisk} Very low & \cellcolor{vlowrisk} Very low & \cellcolor{lowrisk} Low & \cellcolor{lowrisk} Low & \cellcolor{mediumrisk} Medium \\ \hline
+		Moderate & \cellcolor{lowrisk} Low & \cellcolor{lowrisk} Low & \cellcolor{mediumrisk} Medium & \cellcolor{mediumrisk} Medium & \cellcolor{highrisk} High \\ \hline
+		Significant & \cellcolor{mediumrisk} Medium & \cellcolor{mediumrisk} Medium & \cellcolor{highrisk} High & \cellcolor{highrisk} High & \cellcolor{veryhighrisk} Very high \\ \hline
+		Severe & \cellcolor{mediumrisk} Medium & \cellcolor{highrisk} High & \cellcolor{highrisk} High & \cellcolor{veryhighrisk}Very high & \cellcolor{veryhighrisk}Very high \\ \hline
+	\end{tabular}
+\end{table}
+
+\subsection{Risk register}
+\begin{tabularx}{\textwidth}{lXlllXX}
+\hline
+    No.   & Description & Probability & Impact & Rating & Mitigation & Contingency \\
+    \hline
+    1.1   & The UAV community moves to a different platform & Unlikely & Moderate & Low   & Many people, including developers have invested in Ardupilot compatible hardware which represents a small community lock-in & Find alternative, compatible flight controller software \\ \hline
+    1.2   & Unforeseen hardware incompatibilities & Possible & Moderate & Medium & Conduct prior investigation and identify any potential hardware issues & Consult community for potential fix. OR replace incompatible hardware \\ \hline
+    2.2   & Late deliveries or manufacturing faults & Possible & Significant & High  & Request priority delivery, AND Much of the integration testing can be performed with an existing Ardupilot owned personally by a team member. & Source parts elsewhere \\
+    \hline
+\end{tabularx}
+
+\subsection{Further risk comments}
+\paragraph{Risk 1.1 - The UAV community moves to a different platform}
+The developer forums are extremely active, and new features are being added regularly.  Should Ardupilot development cease, there are a number of compelling platforms with a great deal of support - OpenPilot, MultiWii,  and Paparazzi. 
+
+\textit{Consequences} \\
+External development of the Ardupilot software would halt, but it would still be available in its current state.  Being an open source project, many of the alternative drone software projects already support the Pixhawk hardware, just as Ardupilot has been ported to hardware from other projects.
+
+\paragraph{Risk 1.2 - Unforeseen hardware incompatibilities}
+The Hexacopter has 30A Opto ESCs and a Futaba R7008SB receiver \cite{futaba-pixhawk}. Support for these components with the Ardupilot has been demonstrated in other UAV projects, so hardware incompatibility is unlikely. The Raspberry Pi has been demonstrated to work with Ardupilot \cite{ardu-rpi-mavlink}. 
+
+\textit{Consequences}\\
+Hardware incompatibilities would result in additional debugging work and lost time. It could also result in the replacement of other hardware, or the purchase of additional interfacing hardware.
+
+\textit{Controls}\\
+Preliminary research into each subsystem of current hexacopter.
+
+\paragraph{Risk 2.2 - Late deliveries or manufacturing faults}
+Online purchases carry the risk of components not arriving on time. It may also make it more difficult to return components, should they be faulty. 
+
+\textit{Consequences}\\
+Late deliveries would lead to lost time, potentially putting the project on hold or incurring additional costs.
+
+\section{Costs}
+\begin{tabularx}{\textwidth}{XllX}
+	\hline
+    \textbf{Component} & \textbf{Cost (\$AUD)} & \textbf{Source} & \textbf{Comments} \\
+    \hline
+    Pixhawk & \$256 & 3DR store &  \\
+    UBlox GPS + Honeywell Compass & \$41 & eBay  &  \\
+    Telemetry & \$32 & eBay  & Not strictly necessary, but allows in-flight full recovery after a complete server crash \\
+    Indicator LED & \$12 & eBay  &  \\
+    \hline
+\end{tabularx}
+
+Total cost: A\$341 (24/04/2015)
+
+ \section{Conclusion}
+ We fully expect the components listed above to serve as a drop-in replacement for the NAZA and other ancillary components.
+
+The removal of the NAZA flight computer and the inclusion of the Pixhawk radically simplifies the wiring harness, removing many of the components and links that the 2014 team complained about being ‘unreliable’ and the cause of multiple crashes.
+
+The move to the Pixhawk will greatly increase the maintainability of the platform and significantly widen the plausible scope of any future work with this hardware.
+
+ 
+
+%Referencing
+%---------------------------------------------------------
+%\pagebreak
+\renewcommand{\refname}{References}
+\addcontentsline{toc}{part}{References}
+\singlespacing
+\bibliography{references/refs}
+\bibliographystyle{ieeetr}
+%\addbibresource{references/refs.bib}
+%\printbibliography
+
+%---------------------------------------------------------
+
+\end{document}
