@@ -163,9 +163,9 @@ splittopskip=2\baselineskip
 \textbf{\centerline{\large  Hexacopter flight controller upgrade}}
 \centerline{24 April 2014}
 
-This document outlines the proposal for replacing and upgrading the flight controller used on the hexacopter to a 3DR Pixhawk \cite{3dr-pixhawk} running the open-source flight control software Ardupilot \cite{ardupilot}. This marks a significant departure from the current ‘black-box’ NAZA flight controller.  The primary motivation for replacement is based on the strong concern that the current system is not sustainable: The current system restricts any automation improvements, provides no value to the wider community, and limits opportunities for future students. 
+This document outlines the proposal for replacing and upgrading the flight controller used on the hexacopter to a 3DR Pixhawk \cite{3dr-pixhawk} running the open-source flight control software ArduPilot \cite{ardupilot}. This marks a significant departure from the current ‘black-box’ NAZA flight controller.  The primary motivation for replacement is based on the strong concern that the current system is not sustainable: The current system restricts any automation improvements, provides no value to the wider community, and limits opportunities for future students. 
 
-The key benefits of switching to Ardupilot are: 
+The key benefits of switching to ArduPilot are: 
 \begin{itemize}
 	\item Tighter integration and feedback of the hexacopter state with the automation software; 
 	\item Avoiding sensor duplication 
@@ -175,7 +175,7 @@ The key benefits of switching to Ardupilot are:
 	\item Already being used in the research field. 
 \end{itemize}
 
-Ardupilot was used in the winning entries in the 2012 and 2014 Canberra outback challenges \cite{canberrauav-2012,canberrauav-2014} and is the platform of choice in the forum DIYdrones. 
+ArduPilot was used in the winning entries in the 2012 and 2014 Canberra outback challenges \cite{canberrauav-2012,canberrauav-2014} and is the platform of choice in the forum DIYdrones. 
 
 The Pixhawk will use the MAVLink communications protocol to communicate with the Raspberry Pi. It is acknowledged that there are risks associated in the switchover, which will be discussed and addressed in this document.
 
@@ -193,7 +193,7 @@ The scope of this project involves:
 
 \begin{tabularx}{\textwidth}{|X|X|X|}
 	\hline
-	\textbf{Feature} & \textbf{Old (NAZA) system} & \textbf{Proposed (Ardupilot) system} \\
+	\textbf{Feature} & \textbf{Old (NAZA) system} & \textbf{Proposed (ArduPilot) system} \\
 	\hline
 	     Failsafe (return to base) mode & Yes.  & Yes. \\ \hline
     Low-power failsafe & Yes, voltage monitor. & Yes, voltage and current monitor. \\ \hline
@@ -213,14 +213,12 @@ The scope of this project involves:
 
 \subsection{Further discussion of features}
 \subsubsection{Failsafe}
-The Ardupilot configuration has a fail-safe mode equivalent to the NAZA, activated in exactly the same way.  Once configured, the flight computer will return-to-land on loss of hand-held transmitter signal.
-
-The failsafe can be configured as situations demand.
+The ArduPilot configuration has a fail-safe mode equivalent to the NAZA, activated in exactly the same way.  Once configured, the flight computer will return-to-land on loss of hand-held transmitter signal. The failsafe can be configured as situations demand.
 \subsubsection{Modification of the flight controller}
-While it is possible to modify Ardupilot itself, changes to the low-level controls is not recommended nor required. This option will remain open for future work but will require extensive testing. The Ardupilot’s default flight modes are sufficient for the scope of our work.
+While it is possible to modify ArduPilot itself, changes to the low-level controls is not recommended nor required. This option will remain open for future work but will require extensive testing. The ArduPilot’s default flight modes are sufficient for the scope of our work.
 \subsubsection{Camera gimbal}
 The pan servo cannot be controlled by the Pi due to a limitation of the NAZA. 
-This is an out-of-the-box feature on the Ardupilot. 
+This is an out-of-the-box feature on the ArduPilot. 
 \subsubsection{Sensor availability}
 The Raspberry Pi cannot access  pan or tilt data as collected by the NAZA. Any  pan/tilt data received will be different to the NAZA, causing the Pi to fight the NAZA.
 MAVLink provides access to the GPS and IMU data directly from the flight computer, which allows both the QStarz GPS and the XSens IMU to be removed. 
@@ -228,38 +226,37 @@ MAVLink also reports remaining battery capacity, which will allow us to write so
 \subsubsection{Telemetry downlink}
 A new redundant data channel will permit monitoring outside range of WiFi, or in the case of server failure, which has caused near misses in the past.
 
-The Ardupilot software supports fully autonomous missions, with instruction sent over this link. However, we expect to maintain the availability of manual override at all times and will configure the fail-safe to reflect this.
+The ArduPilot software supports fully autonomous missions, with instruction sent over this link. However, we expect to maintain the availability of manual override at all times and will configure the fail-safe to reflect this.
 \subsubsection{Control debugging}
 Using an external monitor interferes with the current control interface between the NAZA and Raspberry Pi. The proposed modification will save a great deal of time and effort in working around this problem.
 
 The PWM signal from ServoBlaster must be calibrated with the  NAZA flight control software. With no hardware PWM outputs, exact calibration with the NAZA flight computer is difficult. This is not an issue using MAVLink as it is a digital protocol. 
 
 \subsubsection{Additional sensor compatibility}
-The Ardupilot community has added support for a wide variety of sensors over a wide variety of interfaces. This support includes integration into the navigation Kalman filter where appropriate.
+The ArduPilot community has added support for a wide variety of sensors over a wide variety of interfaces. This support includes integration into the navigation Kalman filter where appropriate.
 \subsubsection{Forward compatibility}
 DJI has released two new flight computers since the NAZA-M V1.
 The NAZA-M V1 is still supported, but the latest firmware updates require a CAN bus expander valued at A\$80 to make use of any new features.  Very few of these new features address our current concerns.
 
-The Pixhawk was designed to replace the APM2.6 as the firmware files became too large for the 8-bit processor it carried.  It was designed to be largely future-proof, boasting a generous amount of ram, flash and CPU power.  Even if the Ardupilot project out-grows the Pixhawk, it can be expected to have continuing support and backported features as the APM2.6 owners currently enjoy.
+The Pixhawk was designed to replace the APM2.6 as the firmware files became too large for the 8-bit processor it carried.  It was designed to be largely future-proof, boasting a generous amount of ram, flash and CPU power.  Even if the ArduPilot project out-grows the Pixhawk, it is liekly to have continued support and backported features, such as the APM2.6 owners currently enjoy.
 \subsubsection{Portability to future platforms}
-The Ardupilot project began with fixed wing aircraft and has since been extended to various configurations of multi-rotor, Helicopters, Rovers and Boats.
+The ArduPilot project began with fixed wing aircraft and has since been extended to various configurations of multi-rotor, Helicopters, Rovers and Boats.
 Any work done building functionality against ArduCopter (the multirotor firmware) is immediately relevant to almost any other autonomous platform.
 
 \subsection{Alternative solutions}
 \subsubsection{Upgrade the current flight controller}
-To perform any tasks adequately would require significant duplication of sensors, where progress would be bogged down in trying to interface with the low-level components and having to re-invent, test and tune basic control functions. 
-Although there is some limited upgrade capability (upgrading to the PMU V2), which would provide access to the IMU data, this is only possible through an unofficial, undocumented, reverse-engineered system. Even with this extra information, this does not address the other issues outlined in terms of community support, the camera gimbal, telemetry and the existing level of software available for the Ardupilot platform.
+As a commercial system, there is \textit{no} official interface that allows for automation or access to any of its sensors. In the past, this project achieved automation by using a remotely controlled switching circuit and the Raspberry Pi to emulate the PWM signals of joystick commands (aileron, elevator and rudder controls). This approach also requires the Raspberry Pi to have its own set of sensors, where progress would be bogged down in trying to interface with the low-level components and having to re-invent, test and tune basic control functions.
+
+Although there is some limited upgrade capability (upgrading to the PMU V2), which would provide access to the IMU data, this is only possible through an unofficial, undocumented, reverse-engineered system. Even with this extra information, this does not address the other issues outlined in terms of community support, the camera gimbal, telemetry and the existing level of software available for the ArduPilot platform.
 \subsubsection{APM 2.6}
-The APM2.6 is a known-good ardupilot board. The hardware is cheaper than the Pixhawk, but it is version capped as of last year.  This board is not future-proof and will not benefit from new features in ardupilot.
+The APM2.6 is a known-good ArduPilot board. The hardware is cheaper than the Pixhawk, but it is version capped as of last year.  This board is not future-proof and will not benefit from new features in ArduPilot.
 \subsubsection{MultiWii}
-The MultiWii began as a drone based on a hacked Nintendo Wii controller.  The platform has lesser specs than the out-moded APM2.6.
+MultiWii is another general purpose open-source flight controller. Originally developed to use the gyroscope and accelerometer system from the Nintendo Wii game controller, it has developed into a general flight controller that operates on the Arduino platform. Community support for this platform is less than that for the ArduPilot. The platform also has lesser specs than the out-moded APM2.6.
 \subsubsection{Paparazzi}
-An older project that appears to be extremely versatile, but not very beginner friendly.  Their focus appears to be on modularity and wide applications.  The community encourages significant modification of the core flight control software, which is likely to remain out of scope for this platform.   Many of the demonstrated applications are single-purpose scientific flights.
+Paparazzi is another open-source flight controller system, which has been developed since 2003. It is an older project that appears to be extremely versatile, but not very beginner friendly.  Their focus appears to be on modularity and wide applications.  The community encourages significant modification of the core flight control software, which is likely to remain out of scope for this platform.   Many of the demonstrated applications are single-purpose scientific flights.
 \subsubsection{OpenPilot}
-The OpenPilot appears to have a strong community backing for FPV and acrobatics, but the Ardupilot appears to have a sample of simpler flight modes and a stronger autonomous focus, and a stronger Australian community.
+The OpenPilot appears to have a strong community backing for FPV and acrobatics, but the ArduPilot appears to have a sample of simpler flight modes and a stronger autonomous focus, and a stronger Australian community.
 The OpenPilot hardware does support ArduCopter, but does not have the extensive feature set of the Pixhawk, nor its sensor redundancy.
-\subsubsection{Direct motor control}
-Only demonstrated in two videos by a crazy German hacker. Both flights crashed when his Bluetooth game controller went out of range.
 
 \section{Risks}
 \subsection{Risk matrix}
@@ -282,21 +279,23 @@ Only demonstrated in two videos by a crazy German hacker. Both flights crashed w
 \hline
     No.   & Description & Probability & Impact & Rating & Mitigation & Contingency \\
     \hline
-    1.1   & The UAV community moves to a different platform & Unlikely & Moderate & Low   & Many people, including developers have invested in Ardupilot compatible hardware which represents a small community lock-in & Find alternative, compatible flight controller software \\ \hline
+    1.1   & The UAV community moves to a different platform & Unlikely & Moderate & Low   & Many people, including developers have invested in ArduPilot compatible hardware which represents a small community lock-in & Find alternative, compatible flight controller software \\ \hline
     1.2   & Unforeseen hardware incompatibilities & Possible & Moderate & Medium & Conduct prior investigation and identify any potential hardware issues & Consult community for potential fix. OR replace incompatible hardware \\ \hline
-    2.2   & Late deliveries or manufacturing faults & Possible & Significant & High  & Request priority delivery, AND Much of the integration testing can be performed with an existing Ardupilot owned personally by a team member. & Source parts elsewhere \\
+    2.2   & Late deliveries or manufacturing faults & Possible & Significant & High  & Request priority delivery, AND Much of the integration testing can be performed with an existing ArduPilot owned personally by a team member. & Source parts elsewhere \\
     \hline
 \end{tabularx}
 
 \subsection{Further risk comments}
 \paragraph{Risk 1.1 - The UAV community moves to a different platform}
-The developer forums are extremely active, and new features are being added regularly.  Should Ardupilot development cease, there are a number of compelling platforms with a great deal of support - OpenPilot, MultiWii,  and Paparazzi. 
+
+The developer forums are extremely active, and new features are being added regularly.  Of the open-source systems discussed, ArduPilot is the most actively developed \cite{ardupilot-gh-source,openpilot-gh-source,paparazzi-gh-source,multiwii-gh-source}. If an open-source flight controller is to be used, it makes sense to use the most actively developed platform to avoid project stagnation. Should ArduPilot development cease, there are a number of compelling platforms with a great deal of support - OpenPilot, MultiWii and Paparazzi. 
 
 \textit{Consequences} \\
-External development of the Ardupilot software would halt, but it would still be available in its current state.  Being an open source project, many of the alternative drone software projects already support the Pixhawk hardware, just as Ardupilot has been ported to hardware from other projects.
+External development of the ArduPilot software would halt, but it would still be available in its current state.  Being an open source project, many of the alternative drone software projects already support the Pixhawk hardware, just as ArduPilot has been ported to hardware from other projects.
 
 \paragraph{Risk 1.2 - Unforeseen hardware incompatibilities}
-The Hexacopter has 30A Opto ESCs and a Futaba R7008SB receiver \cite{futaba-pixhawk}. Support for these components with the Ardupilot has been demonstrated in other UAV projects, so hardware incompatibility is unlikely. The Raspberry Pi has been demonstrated to work with Ardupilot \cite{ardu-rpi-mavlink}. 
+
+The Hexacopter has 30A Opto ESCs and a Futaba R7008SB receiver \cite{futaba-pixhawk}. Support for these components with the ArduPilot has been demonstrated in other UAV projects, so hardware incompatibility is unlikely. The Raspberry Pi has been demonstrated to work with ArduPilot \cite{ardu-rpi-mavlink}. 
 
 \textit{Consequences}\\
 Hardware incompatibilities would result in additional debugging work and lost time. It could also result in the replacement of other hardware, or the purchase of additional interfacing hardware.
@@ -305,6 +304,7 @@ Hardware incompatibilities would result in additional debugging work and lost ti
 Preliminary research into each subsystem of current hexacopter.
 
 \paragraph{Risk 2.2 - Late deliveries or manufacturing faults}
+
 Online purchases carry the risk of components not arriving on time. It may also make it more difficult to return components, should they be faulty. 
 
 \textit{Consequences}\\
